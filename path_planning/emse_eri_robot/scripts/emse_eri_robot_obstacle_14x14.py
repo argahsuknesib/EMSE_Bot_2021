@@ -25,7 +25,7 @@ obstacles_new = {
     "box_27":(5.5, 4.5),
 }
 
-# obstacles_with_box_names = []
+# obstacles = []
 # obstacles.append(("box_01", 5.5, 5.5))
 # obstacles.append(("box_02",4.5,3.5))
 # obstacles.append(("box_03",0.5, -0.5))
@@ -107,4 +107,4 @@ obstacles.append((6.5, -4.5))
 obstacles.append((5.5, -5.5))
 obstacles.append((5.5, 1.5))
 
-print(obstacles)
+# print(obstacles)

@@ -3,9 +3,7 @@ import rospy
 from pp_msgs.srv import PathPlanningPlugin, PathPlanningPluginResponse
 from geometry_msgs.msg import Twist
 from gridviz import GridViz
-import random
 import secrets
-import csv
 
 def detect_obstacle_space(index, width, height, costmap):
   """[This function aims at printing the 8 adjacent neighbors to the robot at every step the robot takes in the costmap.]
