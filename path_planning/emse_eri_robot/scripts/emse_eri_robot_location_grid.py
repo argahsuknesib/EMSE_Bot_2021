@@ -10,8 +10,8 @@ from tf.transformations import euler_from_quaternion
 
 pub = None
 
-goal_x = 2.2
-goal_y = 2.2
+goal_x = 0
+goal_y = 0
 
 roll = pitch = yaw = 0
 
@@ -63,6 +63,8 @@ def odometry_callback(msg):
     y = round(raw_y * 2)/2
 
     three_three_grid = []
+    three_three_grid.append(raw_x_one_decimal)
+    three_three_grid.append(raw_y_one_decimal)
 
     if (x + 1, y + 1) in obstacles:
         one_one_position = "obstacle"
