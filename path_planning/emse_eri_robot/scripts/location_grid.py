@@ -1,35 +1,27 @@
 #! /usr/bin/env python
 import rospy
 import math
-import csv
 from nav_msgs.msg import Odometry
-from std_msgs.msg import String, ByteMultiArray, Int64MultiArray
 from emse_eri_robot_obstacle_14x14 import obstacles
 from move_base_msgs.msg import MoveBaseActionGoal
-from tf.transformations import euler_from_quaternion
 
-pub = None
+global goal_x
+global goal_y
 
-goal_x = 2.2
-goal_y = 2.2
-
-roll = pitch = yaw = 0
 
 def distance_manhattan(x1, y1, x2, y2):
     x_d = x2 - x1
     y_d = y2 - y1
 
     value = abs(abs(x_d) + abs(y_d))
-    value_rounded_two_decimal = round(value, 2)
-    return value_rounded_two_decimal
+    return value
 
 def distance_euclidean(x1, y1, x2, y2):
-    x_d = (x2 - x1)**2
-    y_d = (y2 - y1)**2
+    x_d = (x2 - x1)^2
+    y_d = (y2 - y1)^2
 
     value = math.sqrt(x_d + y_d)
-    value_rounded_two_decimal = round(value, 2)
-    return value_rounded_two_decimal
+    return value
 
 def goal_callback(msg):
     global goal_x, goal_y
@@ -41,6 +33,8 @@ def goal_callback(msg):
 
     return goal_x, goal_y
 
+goal_x, goal_y = goal_callback()
+rospy.loginfo("{}".format(goal_x))
 
 def odometry_callback(msg):
     raw_x = msg.pose.pose.position.x
@@ -63,6 +57,7 @@ def odometry_callback(msg):
     y = round(raw_y * 2)/2
 
     three_three_grid = []
+
 
     if (x + 1, y + 1) in obstacles:
         one_one_position = "obstacle"
@@ -127,24 +122,6 @@ def odometry_callback(msg):
     three_three_grid.append(robot_to_goal_manhattan)
     robot_to_goal_eucledian = distance_euclidean(raw_x_one_decimal, raw_y_one_decimal, goal_x, goal_y)
     three_three_grid.append(robot_to_goal_eucledian)
-
-
-    global roll, pitch, yaw
-    orientation_q = msg.pose.pose.orientation
-    orientation_list = [orientation_q.x, orientation_q.y, orientation_q.z, orientation_q.w]
-
-    roll, pitch, yaw = euler_from_quaternion(orientation_list)
-    yaw_in_degrees = yaw * 57.2958
-    yaw_in_degrees_round = round(yaw_in_degrees)
-    # rospy.loginfo('yaw : {}'.format(yaw_in_degrees_round))
-    three_three_grid.append(yaw_in_degrees_round)
-
-    with open('/home/whiskygrandee/catkin_ws/src/emse_bot/log/configuration_space/14x14_space_3x3_grid.csv', 'a', newline = '') as csvfile:
-        csvwriter = csv.writer(csvfile)
-        csvwriter.writerow(three_three_grid)
-
-    # callback_publisher = rospy.Publisher('/location_grid_3x3', String, queue_size=10)
-    # callback_publisher.publish(three_three_grid)
     # rospy.loginfo(three_three_grid)
 
 def main():
