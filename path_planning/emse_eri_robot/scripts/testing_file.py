@@ -1,4 +1,4 @@
-y = 6.2    
+y = 0.3
 print(round(y * 2)/2)
-x = -1.4
+x = -2.4
 print(round(x * 2)/2)
