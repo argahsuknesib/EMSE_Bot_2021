@@ -10,8 +10,8 @@ from tf.transformations import euler_from_quaternion
 
 pub = None
 
-goal_x = 0
-goal_y = 0
+goal_x = 1
+goal_y = 1
 
 roll = pitch = yaw = 0
 
