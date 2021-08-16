@@ -46,8 +46,8 @@ def odometry_callback(msg):
     raw_x = msg.pose.pose.position.x
     raw_y = msg.pose.pose.position.y
 
-    raw_x_one_decimal = round(raw_x, 1)
-    raw_y_one_decimal = round(raw_y, 1)
+    raw_x_four_decimal = round(raw_x, 4)
+    raw_y_four_decimal = round(raw_y, 4)
 
     one_one_position = ""
     one_two_position = ""
@@ -59,12 +59,14 @@ def odometry_callback(msg):
     three_two_position = ""
     three_three_position = ""
 
-    x = round(raw_x * 2)/2
-    y = round(raw_y * 2)/2
+    x = round(raw_x, 1)
+    y = round(raw_y, 1)
 
     three_three_grid = []
-    three_three_grid.append(raw_x_one_decimal)
-    three_three_grid.append(raw_y_one_decimal)
+    time = rospy.get_time()
+    three_three_grid.append(time)
+    three_three_grid.append(raw_x_four_decimal)
+    three_three_grid.append(raw_y_four_decimal)
 
     if (x + 1, y + 1) in obstacles:
         one_one_position = "obstacle"
@@ -125,9 +127,9 @@ def odometry_callback(msg):
         three_three_position = "free"
         three_three_grid.append(three_three_position)
 
-    robot_to_goal_manhattan = distance_manhattan(raw_x_one_decimal, raw_y_one_decimal, goal_x, goal_y)
+    robot_to_goal_manhattan = distance_manhattan(raw_x_four_decimal, raw_y_four_decimal, goal_x, goal_y)
     three_three_grid.append(robot_to_goal_manhattan)
-    robot_to_goal_eucledian = distance_euclidean(raw_x_one_decimal, raw_y_one_decimal, goal_x, goal_y)
+    robot_to_goal_eucledian = distance_euclidean(raw_x_four_decimal, raw_y_four_decimal, goal_x, goal_y)
     three_three_grid.append(robot_to_goal_eucledian)
 
 
@@ -144,10 +146,6 @@ def odometry_callback(msg):
     with open('/home/whiskygrandee/catkin_ws/src/emse_bot/log/configuration_space/14x14_space_3x3_grid.csv', 'a', newline = '') as csvfile:
         csvwriter = csv.writer(csvfile)
         csvwriter.writerow(three_three_grid)
-
-    # callback_publisher = rospy.Publisher('/location_grid_3x3', String, queue_size=10)
-    # callback_publisher.publish(three_three_grid)
-    # rospy.loginfo(three_three_grid)
 
 def main():
     rospy.init_node('location_grid')
