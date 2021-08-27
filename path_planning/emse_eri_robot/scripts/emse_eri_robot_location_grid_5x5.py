@@ -2,10 +2,12 @@
 import rospy
 import math
 import csv
-from nav_msgs import Odometry
+from nav_msgs.msg import Odometry
 from emse_eri_robot_obstacle_14x14 import obstacles
 from move_base_msgs.msg import MoveBaseActionGoal
 from tf.transformations import euler_from_quaternion
+
+rospy.loginfo(obstacles)
 
 goal_x = 1
 goal_y = 1
@@ -77,7 +79,7 @@ def odometry_callback(msg):
 
     five_five_grid = []
     time = rospy.get_time()
-    five_five_grid.append(time)
+    five_five_grid.append(time) 
     five_five_grid.append(raw_x_four_decimal)
     five_five_grid.append(raw_y_four_decimal)
 
@@ -264,6 +266,10 @@ def odometry_callback(msg):
     five_five_grid.append(robot_to_goal_eucledian)
     relative_position_to_goal_x = calculate_relative_position_x(raw_x_four_decimal, goal_x)
     five_five_grid.append(relative_position_to_goal_x)
+
+    with open('/home/whiskygrandee/catkin_ws/src/EMSE_Bot_2021/log/configuration_space/14x14_space_5x5_grid.csv', 'a', newline = '') as csvfile:
+        csvwriter = csv.writer(csvfile)
+        csvwriter.writerow(five_five_grid)
     
   
 def main():

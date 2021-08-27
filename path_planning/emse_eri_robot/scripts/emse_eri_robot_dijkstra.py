@@ -307,9 +307,6 @@ def dijkstra(start_index, goal_index, width, height, costmap, resolution, origin
   rospy.loginfo('Dijkstra: Done reconstructing path')
   return shortest_path
 
-
-
-
 def clean_shutdown():
   cmd_vel.publish(Twist())
   rospy.sleep(1)

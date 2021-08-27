@@ -1990,4 +1990,4 @@ obstacles.append((5.8, 1.2))
 obstacles.append((5.9, 1.1))
 obstacles.append((6.0, 1.0))
 
-print(obstacles)
+# print(obstacles)
