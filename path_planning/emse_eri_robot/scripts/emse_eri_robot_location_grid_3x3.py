@@ -3,9 +3,7 @@ import rospy
 import math
 import csv
 from nav_msgs.msg import Odometry
-from std_msgs.msg import String, ByteMultiArray, Int64MultiArray
 from emse_eri_robot_obstacle_14x14 import obstacles
-from move_base_msgs.msg import MoveBaseActionGoal
 from tf.transformations import euler_from_quaternion
 
 pub = None
@@ -140,7 +138,6 @@ def odometry_callback(msg):
     roll, pitch, yaw = euler_from_quaternion(orientation_list)
     yaw_in_degrees = yaw * 57.2958
     yaw_in_degrees_round = round(yaw_in_degrees)
-    # rospy.loginfo('yaw : {}'.format(yaw_in_degrees_round))
     three_three_grid.append(yaw_in_degrees_round)
 
     with open('/home/whiskygrandee/catkin_ws/src/emse_bot/log/configuration_space/14x14_space_3x3_grid.csv', 'a', newline = '') as csvfile:
@@ -150,7 +147,6 @@ def odometry_callback(msg):
 def main():
     rospy.init_node('location_grid')
     rospy.Subscriber("/odom", Odometry, odometry_callback)
-    rospy.Subscriber("/move_base/goal", MoveBaseActionGoal, goal_callback)
     rospy.spin()
 
 if __name__ == '__main__':

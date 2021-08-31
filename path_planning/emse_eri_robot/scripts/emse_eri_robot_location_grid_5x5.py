@@ -7,8 +7,6 @@ from emse_eri_robot_obstacle_14x14 import obstacles
 from move_base_msgs.msg import MoveBaseActionGoal
 from tf.transformations import euler_from_quaternion
 
-rospy.loginfo(obstacles)
-
 goal_x = 1
 goal_y = 1
 
