@@ -565,7 +565,6 @@ def odometry_callback(msg):
     if (x -0.2, y - 0.4) in obstacles:
         seven_nine_position = "obstacle"
         nine_nine_grid.append(seven_nine_position)
-
     else:
         seven_nine_position = "free"
         nine_nine_grid.append(seven_nine_position)
@@ -575,7 +574,7 @@ def odometry_callback(msg):
         nine_nine_grid.append(eight_one_position)
 
     else:
-        eight_one_position = "obstacle"
+        eight_one_position = "free"
         nine_nine_grid.append(eight_one_position)
 
     if (x - 0.3, y + 0.3) in obstacles:
